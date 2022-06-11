@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Acasa</title>
+        <link rel="stylesheet" href="./style/app.css">
+        <script src="./js/app.js" defer></script>
+        <!-- Aplicam stilul de la hover la elementul a carui atribut "href" incepe cu  -->
+        <style>
+            .nav-meniu .nav-link[href^="acasa"] {
+                color: red;
+                letter-spacing: 2px;
+            }
+            </style>
+        </head>
+
+
+    <body>
+        <!-- Meniu navigatie -->
+        <nav>
+            <ul class="nav-meniu">
+                <li>
+                    <a href="acasa.html" class="nav-link">Acasa</a>
+                </li>
+                <li>
+                    <a href="catalog.html" class="nav-link">Catalog</a>
+                </li>
+                <li>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+
+            </ul>
+            <span id="mode-toggle"></span>
+        </nav>
+        <!-- End meniu navigatie -->
+
+        <!-- Sectiune Hero -->
+        <div class="hero-section">
+            <div class="overlay"></div>
+          <h1>Site-ul <b>meu</b></h1>
+          <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore eos quidem modi nulla rem, dolor ea? Aperiam, quidem doloribus. Quas facilis quia repellat aspernatur repellendus! Perspiciatis totam at deserunt deleniti.
+          </p>
+        </div>
+        <!-- End sectiune Hero -->
+
+        <!-- Continut pagina -->
+        <section class="page-content">
+            <div class="page-content-text">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet dolor distinctio ipsam, atque odio et soluta quod temporibus nulla aliquam esse nam modi repudiandae excepturi aut cumque tempore, debitis eos!
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo iste aut rerum velit tempore ad eos temporibus harum pariatur modi, corrupti at repudiandae dicta, dolores eum distinctio veritatis ducimus quos.
+                </p>
+            </div>
+            <img src="https://source.unsplash.com/1600x900/?code" alt="imagine" class="page-content-img">
+        </section>
+        <!-- End Continut pagina -->
+
+        <!-- Sectiune Card-uri -->
+        <section class="cards-container">
+            <h2>Proiectele mele</h2>
+            <ul class="cards-list">
+               
+            </ul>
+        </section>
+        <!-- END Sectiune card-uri -->
+
+        <!-- Sectiune Footer -->
+        <footer>
+            <p>
+                Copyright 2022
+            </p>
+        </footer>
+
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+            import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js";
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+              apiKey: "AIzaSyBzJp54_-DpwEBlX5VL8rPhreAVd4tAVQA",
+              authDomain: "site-web-be36f.firebaseapp.com",
+              databaseURL: "https://site-web-be36f-default-rtdb.firebaseio.com",
+              projectId: "site-web-be36f",
+              storageBucket: "site-web-be36f.appspot.com",
+              messagingSenderId: "331404171298",
+              appId: "1:331404171298:web:487c322d1667de4180d27b"
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            //initializam baza de date
+            const database = getDatabase(app);
+            //referinta catre baza de date
+            const dbRef = ref(database);
+
+            //preluam lista de proiecte din baza de date
+            //"proiecte" - este numele listei noastre
+            get(child(dbRef, "proiecte"))
+            //dupa ce preluam lista, extragem datele din lista
+            .then(function(data){
+                if (data.exists()){
+                //daca exista date returnam lista de proiecte
+                const listaProiecte = data.val();
+                console.log(listaProiecte)
+                //pt fiecare proietc din lista generam un card folosind functia generateCard
+                listaProiecte.forEach(function(proiect){
+                    generatorCard(proiect)
+                })
+                } else{
+                    //altfel,daca nu exista date,afisam la consola un mesaj
+                    console.log("No data")
+                }
+            })
+            //daca nu exista lista,afisam un mesaj
+            .catch(function(error){
+                console.log(error)
+            })
+          </script>
+    </body>
+</html>
